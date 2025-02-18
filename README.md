@@ -1,10 +1,11 @@
-## sbt project compiled with Scala 3
+## Scala Todo CLI
 
 ### Usage
 
 This is a normal sbt project. You can compile code with `sbt compile`, run it with `sbt run`, and `sbt console` will start a Scala 3 REPL.
 
-To build and executable install the plugin, build the fat jar file, and give permissions to the shell script wrapper.
+### Making an executable
+To build an executable install the plugin, build the fat jar file, and give permissions to the shell script wrapper.
 
 ```shell
 sbt reload
