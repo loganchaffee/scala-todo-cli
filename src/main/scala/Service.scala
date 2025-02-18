@@ -75,45 +75,6 @@ object TodoService {
     updatedTodoTitle
   }
 
-  def _updateTodoStatus(id: Int, isComplete: Boolean) = {
-    val fileSource = Source.fromFile(TODO_CSV)
-
-    var updatedTodoTitle: String = null
-
-    val lines = try {
-      fileSource
-        .getLines
-        .toList
-        .zipWithIndex
-        .map { case (line, index) => {
-            if (index == id - 1) {
-              line.split(",").toList match {
-                case title :: _ :: Nil => {
-                  updatedTodoTitle = title
-                  s"${title},${isComplete}"
-                }
-                case _ => line
-              }
-            } else {
-              line
-            }
-          }
-        }
-    } finally {
-      fileSource.close()
-    }
-
-    val writer = FileWriter(TODO_CSV, false)
-
-    try {
-      writer.write(lines.mkString("\n"))
-    } finally {
-      writer.close()
-    }
-
-    updatedTodoTitle
-  }
-
   def todosToString(todos: List[Todo]): String = {
     todos
       .map { todo =>
