@@ -1,28 +1,17 @@
-import commands.*
-import handlers.TodoHandler.*
-
+import handlers.TodoHandlers.*
 object Main {
-  def getCommandFromArgs(args: Array[String]) = {
-    args.toList match {
-      case "list" :: Nil => Some(List)
-      case "add" :: todo :: Nil => Some(Add(todo))
-      case "remove" :: id :: Nil => Some(Remove(id.toInt))
-      case "complete" :: id :: Nil => Some(Complete(id.toInt))
-      case "incomplete" :: id :: Nil => Some(Incomplete(id.toInt))
-      case _ => None
+  def main(args: Array[String]) = {
+    val output = args.toList match {
+      case Nil => handleHelp
+      case "help" :: _ => handleHelp
+      case "list" :: _ => handleListTodos
+      case "add" :: title :: Nil => handleAddTodo(title)
+      case "remove" :: id :: Nil => handleRemoveTodo(id.toInt)
+      case "complete" :: id :: Nil => handleCompleteTodo(id.toInt)
+      case "incomplete" :: id :: Nil => handleIncompleteTodo(id.toInt)
+      case unknownArgument :: _ => s"\"${unknownArgument}\" is not a valid command"
     }
-  }
 
-  def main(args: Array[String]): Unit = {
-    getCommandFromArgs(args)
-      .map { command => command match {
-          case List => handleListTodos
-          case Add(title) => handleAddTodo(title)
-          case Remove(id) => handleRemoveTodo(id)
-          case Complete(id) => handleCompleteTodo(id)
-          case Incomplete(id) => handleIncompleteTodo(id)
-        }
-      }
-      .map(message => println(message))
+    println(output)
   }
 }
